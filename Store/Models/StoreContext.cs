@@ -5,6 +5,8 @@ namespace Store.Models
     public class StoreContext : DbContext
     {
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Store> Stores { get; set; }
         public StoreContext()
         {
 
@@ -41,6 +43,14 @@ namespace Store.Models
                       .HasMaxLength(255)
                       .IsRequired();
 
+                entity.Property(e => e.Price)
+                      .HasColumnName("Price")                      
+                      .IsRequired();
+
+                entity.HasOne(x => x.Group)
+                .WithMany(c => c.Products)
+                .HasForeignKey(x => x.Id)
+                .HasConstraintName("GroupToProduct");
             });
 
             modelBuilder.Entity<Group>(entity =>
@@ -52,42 +62,26 @@ namespace Store.Models
 
                 entity.Property(e => e.Name)
                .HasColumnName("ProductName")
-               .HasMaxLength(255)
-               .IsRequired();
-
-                entity.Property(e => e.Description)
-                      .HasColumnName("Description")
-                      .HasMaxLength(255)
-                      .IsRequired();
-
+               .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Message>(entity =>
+            modelBuilder.Entity<Store>(entity =>
             {
 
-                entity.ToTable("messages");
+                entity.ToTable("Storage");
 
-                entity.HasKey(x => x.MessageId).HasName("messagePk");
+                entity.HasKey(x => x.Id).HasName("StoreID");
 
 
-                entity.Property(e => e.Text)
-                .HasColumnName("messageText");
-                entity.Property(e => e.DateSend)
-                .HasColumnName("messageData");
-                entity.Property(e => e.IsSent)
-                .HasColumnName("is_sent");
-                entity.Property(e => e.MessageId)
-                .HasColumnName("id");
+                entity.Property(e => e.Name)
+                .HasColumnName("StorageName");
 
-                entity.HasOne(x => x.UserTo)
-                .WithMany(m => m.MessagesTo)
-                .HasForeignKey(x => x.UserToId)
-                .HasConstraintName("messageToUserFK");
+                entity.Property(e => e.Count)
+                .HasColumnName("ProductCount");
 
-                entity.HasOne(x => x.UserFrom)
-                .WithMany(m => m.MessagesFrom)
-                .HasForeignKey(x => x.UserFromId)
-                .HasConstraintName("messageFromUserFK");
+                entity.HasMany(x => x.Products)
+                .WithMany(m => m.Stores)
+                .UsingEntity(j => j.ToTable("StorageProduct"));
             });
         }
     }
