@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Store.Models;
 
+
 namespace Store.Controllers
 {
     [ApiController]
@@ -26,11 +27,11 @@ namespace Store.Controllers
             catch
             {
                 return StatusCode(500);
-            }            
+            }
         }
 
-        [HttpPost("putProduct")]
-        public IActionResult PutProducts([FromQuery] string name,string description, int groupId, int price )
+        [HttpPost("addProduct")]
+        public IActionResult AddProduct([FromQuery] string name, string description, int groupId, int price)
         {
             try
             {
@@ -48,10 +49,60 @@ namespace Store.Controllers
                         context.SaveChanges();
                         return Ok();
                     }
-                    else
+
+                    return StatusCode(409);
+
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("deleteProduct")]
+        public IActionResult DeleteProduct([FromQuery] int id)
+        {
+            try
+            {
+                using (var context = new StoreContext())
+                {
+                    if (!context.Products.Any(x => x.Id == id))
                     {
-                        return StatusCode(409);
-                    }                        
+                        return NotFound();
+                    }
+
+                    Product product = context.Products.FirstOrDefault(x => x.Id == id)!;
+                    context.Products.Remove(product);
+                    context.SaveChanges();
+
+                    return Ok();
+
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut("addProductPrice")]
+        public IActionResult AddProductPrice([FromQuery] int id, int price)
+        {
+            try
+            {
+                using (var context = new StoreContext())
+                {
+                    if (!context.Products.Any(x => x.Id == id))
+                    {
+                        return NotFound();
+                    }
+
+                    Product product = context.Products.FirstOrDefault(x => x.Id == id)!;
+                    product.Price = price;
+                    context.SaveChanges();
+
+                    return Ok();
                 }
             }
             catch
