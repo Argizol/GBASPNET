@@ -1,5 +1,3 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using NetStore.Abstraction;
 using NetStore.Repositories;
 
@@ -18,6 +16,7 @@ namespace NetStore
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
+            builder.Services.AddMemoryCache();
 
             // регистрация с Autofac
             //builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -29,6 +28,7 @@ namespace NetStore
 
             builder.Services.AddSingleton<IProductRepository, ProductRepository>();
             builder.Services.AddSingleton<IGroupRepository, GroupRepository>();
+            
 
             var app = builder.Build();
 

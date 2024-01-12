@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Memory;
 using NetStore.Abstraction;
 using NetStore.Models;
 using NetStore.Models.DTO;
@@ -8,11 +9,13 @@ namespace NetStore.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _cache;
 
-        public ProductRepository(IMapper mapper)
+        public ProductRepository(IMapper mapper, IMemoryCache cache)
         {
             _mapper = mapper;
-        }        
+            _cache = cache;
+        }
 
         public int AddProduct(DTOProduct product)
         {
@@ -24,6 +27,7 @@ namespace NetStore.Repositories
                     entityProduct = _mapper.Map<Product>(product);
                     context.Products.Add(entityProduct);
                     context.SaveChanges();
+                    _cache.Remove("products");
                 }
                 return entityProduct.Id;
             }
@@ -33,8 +37,15 @@ namespace NetStore.Repositories
         {
             using (var context = new StoreContext())
             {
-                var products = context.Groups.Select(x => _mapper.Map<DTOProduct>(x)).ToList();
-                
+                if (_cache.TryGetValue("products", out List<DTOProduct> products))
+                {
+                    return products;
+                }
+
+                _cache.Set("products", products, TimeSpan.FromMinutes(30));
+
+                products = context.Groups.Select(x => _mapper.Map<DTOProduct>(x)).ToList();
+
                 return products;
             }
         }
