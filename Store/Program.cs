@@ -1,5 +1,9 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using NetStore.Abstraction;
+using NetStore.Repositories;
 
-namespace Store
+namespace NetStore
 {
     public class Program
     {
@@ -13,6 +17,18 @@ namespace Store
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
+            // регистрация с Autofac
+            //builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            //builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductRepository>()
+            //            .As<IProductRepository>());
+
+            //builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<GroupRepository>()
+            //.As<IGroupRepository>());
+
+            builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+            builder.Services.AddSingleton<IGroupRepository, GroupRepository>();
 
             var app = builder.Build();
 

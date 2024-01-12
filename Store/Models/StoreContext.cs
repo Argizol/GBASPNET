@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Store.Models
+namespace NetStore.Models
 {
     public class StoreContext : DbContext
     {
         public DbSet<Group> Groups { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Store> Stores { get; set; }
+        public DbSet<Warehouse> Stores { get; set; }
         public StoreContext()
         {
 
@@ -44,7 +44,7 @@ namespace Store.Models
                       .IsRequired();
 
                 entity.Property(e => e.Price)
-                      .HasColumnName("Price")                      
+                      .HasColumnName("Price")
                       .IsRequired();
 
                 entity.HasOne(x => x.Group)
@@ -65,7 +65,7 @@ namespace Store.Models
                .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Store>(entity =>
+            modelBuilder.Entity<Warehouse>(entity =>
             {
 
                 entity.ToTable("Storage");

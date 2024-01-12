@@ -1,4 +1,4 @@
-﻿namespace Store.Models.Base
+﻿namespace NetStore.Models.Base
 {
     public abstract class BaseModel
     {

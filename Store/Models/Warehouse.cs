@@ -1,8 +1,8 @@
-﻿using Store.Models.Base;
+﻿using NetStore.Models.Base;
 
-namespace Store.Models
+namespace NetStore.Models
 {
-    public class Store : BaseModel
+    public class Warehouse : BaseModel
     {
         public virtual List<Product> Products { get; set; } = null!;
         public int Count { get; set; }

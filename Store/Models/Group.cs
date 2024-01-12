@@ -1,10 +1,9 @@
-﻿using Store.Models.Base;
+﻿using NetStore.Models.Base;
 
-namespace Store.Models
+namespace NetStore.Models
 {
     public class Group : BaseModel 
-    {
-      
+    {      
         public virtual List<Product> Products { get; set; } = null!;
     }
 }

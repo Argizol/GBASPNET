@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Store.Models;
+using NetStore.Abstraction;
+using NetStore.Models;
+using NetStore.Models.DTO;
 
 namespace Store.Controllers
 {
@@ -7,32 +9,26 @@ namespace Store.Controllers
     [Route("[controller]")]
     public class GroupController : ControllerBase
     {
-        [HttpPost("addGroup")]
-        public IActionResult AddGroup([FromQuery] string name)
+        private readonly IGroupRepository _groupRepository;
+        
+        public GroupController(IGroupRepository groupRepository)
         {
-            try
-            {
-                using (var context = new StoreContext())
-                {
-                    if (!context.Groups.Any(x => x.Name.ToLower().Equals(name)))
-                    {
-                        context.Add(new Group()
-                        {
-                          Name = name
-                          
-                        });
-                        context.SaveChanges();
-                        return Ok();
-                    }
+            _groupRepository = groupRepository;
+        }        
 
-                    return StatusCode(409);
+        [HttpPost("addGroup")]
+        public IActionResult AddGroup([FromBody] DTOGroup group)
+        {
 
-                }
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            var result = _groupRepository.AddGroup(group);
+            return Ok(result);
+        }
+
+        [HttpGet("getGroups")]
+        public IActionResult GetGroups()
+        {
+            var result = _groupRepository.GetGroups;
+            return Ok(result);
         }
 
         [HttpDelete("deleteGroup")]
