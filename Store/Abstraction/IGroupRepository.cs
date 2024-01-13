@@ -6,6 +6,7 @@ namespace NetStore.Abstraction
     {
         public int AddGroup(DTOGroup group);
         public string GetGroupsCSV();
+        public string GetСacheStat();
 
         public IEnumerable<DTOGroup> GetGroups();
     }

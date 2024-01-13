@@ -67,6 +67,14 @@ namespace NetStore.Repositories
             }
 
             return sb.ToString();
-        }       
+        }
+
+        public string GetСacheStatCSV()
+        {
+            var result = _cache.GetCurrentStatistics().ToString();
+
+            return result;
+
+        }
     }
 }

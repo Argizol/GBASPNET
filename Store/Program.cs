@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using NetStore.Abstraction;
 using NetStore.Models;
 using NetStore.Repositories;
@@ -53,7 +54,7 @@ namespace NetStore
 
             var app = builder.Build();
 
-            app.UseStaticFiles();
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -61,6 +62,18 @@ namespace NetStore
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
+            if(!Directory.Exists(staticFilesPath))
+            {
+                Directory.CreateDirectory(staticFilesPath);
+            }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(staticFilesPath),
+                RequestPath = "/static"
+            });
 
             app.UseHttpsRedirection();
 

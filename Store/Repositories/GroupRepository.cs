@@ -4,6 +4,7 @@ using AutoMapper;
 using NetStore.Abstraction;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text;
+using Azure.Core;
 
 namespace NetStore.Repositories
 {
@@ -62,6 +63,12 @@ namespace NetStore.Repositories
             }
 
             return sb.ToString();
+        }
+
+        public string GetСacheStat()
+        {            
+            var result = _cache.GetCurrentStatistics().ToString();
+            return result;            
         }
     }
 }

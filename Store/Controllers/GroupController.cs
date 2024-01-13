@@ -64,5 +64,18 @@ namespace Store.Controllers
 
             return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
         }
+
+        [HttpGet("GetCacheCSV")]
+        public ActionResult<string> GetCacheCSV()
+        {
+            var groups = GetGroups();            
+            var result = _groupRepository.GetСacheStat;
+
+            var fileName = $"groups{DateTime.Now.ToBinary()}.csv";
+
+            System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", fileName), result);
+
+            return "https://" + Request.Host.ToString() + "/static/" + fileName;
+        }
     }
 }
