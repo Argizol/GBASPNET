@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using NetStore.Abstraction;
 using NetStore.Models;
 using NetStore.Models.DTO;
+using System.Text;
+
 
 namespace NetStore.Repositories
 {
@@ -10,11 +13,12 @@ namespace NetStore.Repositories
     {
         private readonly IMapper _mapper;
         private readonly IMemoryCache _cache;
-
-        public ProductRepository(IMapper mapper, IMemoryCache cache)
+        private readonly ILogger _logger;
+        public ProductRepository(IMapper mapper, IMemoryCache cache, ILogger logger)
         {
             _mapper = mapper;
             _cache = cache;
+            _logger = logger;
         }
 
         public int AddProduct(DTOProduct product)
@@ -49,5 +53,20 @@ namespace NetStore.Repositories
                 return products;
             }
         }
+
+        //public IActionResult CSV()
+        //{
+        //    var products = GetProducts();
+
+        //    var sb = new StringBuilder();
+        //    sb.AppendLine("prodID, prodName, prodDescription");
+
+        //    foreach (var product in products)
+        //    {
+        //        sb.Append($"{product.Id}, {product.Name}, {product.Description}");
+        //    }
+
+        //    return File(Encoding.UTF8.GetBytes(sb.ToString()), "txt/csv", "products.csv");
+        //}
     }
 }

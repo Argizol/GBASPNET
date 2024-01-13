@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace NetStore.Models
 {
@@ -19,7 +20,13 @@ namespace NetStore.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=Hirofumi; Database=WebStore;Integrated Security=False;TrustServerCertificate=True; Trusted_Connection=True;")
+            var config = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json")
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .Build();
+
+            string connectionString = config.GetConnectionString();
+            optionsBuilder.UseSqlServer(connectionString)
                 .UseLazyLoadingProxies();
         }
 
