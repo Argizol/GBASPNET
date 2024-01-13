@@ -69,10 +69,13 @@ namespace NetStore.Repositories
 
         public string GetСacheStatCSV()
         {
-            var result = _cache.GetCurrentStatistics().ToString();
-
-            return result;
-
+            var curCache = _cache.GetCurrentStatistics();
+            var sb = new StringBuilder();
+            sb.AppendLine($"CurrentEntryCount, {curCache.CurrentEntryCount.ToString()}")
+              .AppendLine($"CurrentEstimatedSize, {curCache.CurrentEstimatedSize.ToString()}")
+              .AppendLine($"TotalHits, {curCache.TotalHits.ToString()}")
+              .AppendLine($"TotalMisses, {curCache.TotalMisses.ToString()}");
+            return sb.ToString();
         }
     }
 }
