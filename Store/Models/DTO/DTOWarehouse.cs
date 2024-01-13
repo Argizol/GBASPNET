@@ -3,7 +3,7 @@
     public class DTOWarehouse
     {
         public int Count { get; set; }
-        public int Id { get; set; }
+        public int WhId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
     }

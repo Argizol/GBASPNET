@@ -1,9 +1,10 @@
-﻿using NetStore.Models.Base;
-
-namespace NetStore.Models
+﻿namespace NetStore.Models
 {
-    public class Warehouse : BaseModel
+    public class Warehouse
     {
+
+        public int WhId { get; set; }
+        public string? Name { get; set; }
         public virtual List<Product> Products { get; set; } = null!;
         public int Count { get; set; }
     }

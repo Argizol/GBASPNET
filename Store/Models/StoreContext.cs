@@ -36,7 +36,7 @@ namespace NetStore.Models
             {
                 entity.ToTable("Products");
 
-                entity.HasKey(x => x.Id).HasName("ProductID");
+                entity.HasKey(x => x.ProdId).HasName("ProductID");
                 entity.HasIndex(x => x.Name).IsUnique();
 
                 entity.Property(e => e.Name)
@@ -55,7 +55,8 @@ namespace NetStore.Models
 
                 entity.HasOne(x => x.Group)
                 .WithMany(c => c.Products)
-                .HasForeignKey(y => y.Id)
+                .HasForeignKey(y => y.ProdId)
+                .IsRequired()
                 .HasConstraintName("GroupToProduct");
             });
 
@@ -63,7 +64,7 @@ namespace NetStore.Models
             {
                 entity.ToTable("ProductGroups");
 
-                entity.HasKey(x => x.Id).HasName("GroupID");
+                entity.HasKey(x => x.GroupId).HasName("GroupID");
                 entity.HasIndex(x => x.Name).IsUnique();
 
                 entity.Property(e => e.Name)
@@ -76,7 +77,7 @@ namespace NetStore.Models
 
                 entity.ToTable("Storage");
 
-                entity.HasKey(x => x.Id).HasName("StoreID");
+                entity.HasKey(x => x.WhId).HasName("StoreID");
 
 
                 entity.Property(e => e.Name)

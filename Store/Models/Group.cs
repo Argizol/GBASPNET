@@ -1,9 +1,9 @@
-﻿using NetStore.Models.Base;
-
-namespace NetStore.Models
+﻿namespace NetStore.Models
 {
-    public class Group : BaseModel
+    public class Group
     {
+        public int GroupId { get; set; }
+        public string? Name { get; set; }
         public virtual List<Product> Products { get; set; } = null!;
     }
 }

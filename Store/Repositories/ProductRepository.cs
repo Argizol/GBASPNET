@@ -31,7 +31,7 @@ namespace NetStore.Repositories
                     context.SaveChanges();
                     _cache.Remove("products");
                 }
-                return entityProduct.Id;
+                return entityProduct.ProdId;
             }
         }
 
@@ -49,7 +49,7 @@ namespace NetStore.Repositories
                 var stat = _cache.GetCurrentStatistics().ToString();
                 File.WriteAllText(Path.Combine(Environment.CurrentDirectory, "productcache.txt"), stat);
 
-                products = context.Groups.Select(x => _mapper.Map<DTOProduct>(x)).ToList();
+                products = context.Products.Select(x => _mapper.Map<DTOProduct>(x)).ToList();
 
                 return products;
             }
@@ -61,7 +61,7 @@ namespace NetStore.Repositories
 
             foreach (var product in products)
             {
-                sb.AppendLine($"{product.Id},{product.Name}, {product.Description}");
+                sb.AppendLine($"{product.ProdId},{product.Name}, {product.Description}");
             }
 
             return sb.ToString();

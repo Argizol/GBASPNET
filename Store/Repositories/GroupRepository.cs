@@ -29,7 +29,7 @@ namespace NetStore.Repositories
                 context.SaveChanges();
                 _cache.Remove("groups");
             }
-            return entityGroup.Id;
+            return entityGroup.GroupId;
         }
 
         public IEnumerable<DTOGroup> GetGroups()
@@ -56,7 +56,7 @@ namespace NetStore.Repositories
 
             foreach (var group in groups)
             {
-                sb.AppendLine($"{group.Id},{group.Name},{group.Description}");
+                sb.AppendLine($"{group.GroupId},{group.Name},{group.Description}");
             }
 
             return sb.ToString();

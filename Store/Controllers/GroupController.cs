@@ -38,12 +38,12 @@ namespace Store.Controllers
             {
                 using (var context = new StoreContext())
                 {
-                    if (!context.Groups.Any(x => x.Id == id))
+                    if (!context.Groups.Any(x => x.GroupId == id))
                     {
                         return NotFound();
                     }
 
-                    Group product = context.Groups.FirstOrDefault(x => x.Id == id)!;
+                    Group product = context.Groups.FirstOrDefault(x => x.GroupId == id)!;
                     context.Groups.Remove(product);
                     context.SaveChanges();
 

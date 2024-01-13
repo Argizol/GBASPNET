@@ -38,12 +38,12 @@ namespace Store.Controllers
             {
                 using (var context = new StoreContext())
                 {
-                    if (!context.Products.Any(x => x.Id == id))
+                    if (!context.Products.Any(x => x.ProdId == id))
                     {
                         return NotFound();
                     }
 
-                    Product product = context.Products.FirstOrDefault(x => x.Id == id)!;
+                    Product product = context.Products.FirstOrDefault(x => x.ProdId == id)!;
                     context.Products.Remove(product);
                     context.SaveChanges();
 
@@ -64,12 +64,12 @@ namespace Store.Controllers
             {
                 using (var context = new StoreContext())
                 {
-                    if (!context.Products.Any(x => x.Id == id))
+                    if (!context.Products.Any(x => x.ProdId == id))
                     {
                         return NotFound();
                     }
 
-                    Product product = context.Products.FirstOrDefault(x => x.Id == id)!;
+                    Product product = context.Products.FirstOrDefault(x => x.ProdId == id)!;
                     product.Price = price;
                     context.SaveChanges();
 

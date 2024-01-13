@@ -11,8 +11,8 @@ using NetStore.Models;
 namespace NetStore.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240113204548_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240113213248_Third")]
+    partial class Third
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,18 +29,18 @@ namespace NetStore.Migrations
 
             modelBuilder.Entity("NetStore.Models.Group", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GroupId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GroupId"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("ProductName");
 
-                    b.HasKey("Id")
+                    b.HasKey("GroupId")
                         .HasName("GroupID");
 
                     b.HasIndex("Name")
@@ -52,7 +52,7 @@ namespace NetStore.Migrations
 
             modelBuilder.Entity("NetStore.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProdId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -74,7 +74,7 @@ namespace NetStore.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Price");
 
-                    b.HasKey("Id")
+                    b.HasKey("ProdId")
                         .HasName("ProductID");
 
                     b.HasIndex("Name")
@@ -85,11 +85,11 @@ namespace NetStore.Migrations
 
             modelBuilder.Entity("NetStore.Models.Warehouse", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("WhId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WhId"));
 
                     b.Property<int>("Count")
                         .HasColumnType("int")
@@ -99,7 +99,7 @@ namespace NetStore.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("StorageName");
 
-                    b.HasKey("Id")
+                    b.HasKey("WhId")
                         .HasName("StoreID");
 
                     b.ToTable("Storage", (string)null);
@@ -107,15 +107,15 @@ namespace NetStore.Migrations
 
             modelBuilder.Entity("ProductWarehouse", b =>
                 {
-                    b.Property<int>("ProductsId")
+                    b.Property<int>("ProductsProdId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StoresId")
+                    b.Property<int>("StoresWhId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductsId", "StoresId");
+                    b.HasKey("ProductsProdId", "StoresWhId");
 
-                    b.HasIndex("StoresId");
+                    b.HasIndex("StoresWhId");
 
                     b.ToTable("StorageProduct", (string)null);
                 });
@@ -124,7 +124,7 @@ namespace NetStore.Migrations
                 {
                     b.HasOne("NetStore.Models.Group", "Group")
                         .WithMany("Products")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ProdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("GroupToProduct");
@@ -136,13 +136,13 @@ namespace NetStore.Migrations
                 {
                     b.HasOne("NetStore.Models.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .HasForeignKey("ProductsProdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NetStore.Models.Warehouse", null)
                         .WithMany()
-                        .HasForeignKey("StoresId")
+                        .HasForeignKey("StoresWhId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
