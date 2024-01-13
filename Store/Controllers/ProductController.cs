@@ -85,7 +85,6 @@ namespace Store.Controllers
         [HttpGet("GetProductsCSV")]
         public FileContentResult GetCSV()
         {
-            var result = _productRepository.GetProducts;
             var content = _productRepository.GetProductsCSV();
 
             return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");

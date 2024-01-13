@@ -59,8 +59,7 @@ namespace Store.Controllers
 
         [HttpGet("GetGroupsCSV")]
         public FileContentResult GetCSV()
-        {
-            var result = _groupRepository.GetGroups;
+        {            
             var content = _groupRepository.GetGroupsCSV();
 
             return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
