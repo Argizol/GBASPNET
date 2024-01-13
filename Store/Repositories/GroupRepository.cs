@@ -56,7 +56,7 @@ namespace NetStore.Repositories
 
             foreach (var group in groups)
             {
-                sb.AppendLine($"{group.Id},{group.Name}, {group.Description}");
+                sb.AppendLine($"{group.Id},{group.Name},{group.Description}");
             }
 
             return sb.ToString();

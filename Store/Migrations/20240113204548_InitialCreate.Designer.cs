@@ -11,7 +11,7 @@ using NetStore.Models;
 namespace NetStore.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240113204054_InitialCreate")]
+    [Migration("20240113204548_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -55,7 +55,7 @@ namespace NetStore.Models
 
                 entity.HasOne(x => x.Group)
                 .WithMany(c => c.Products)
-                .HasForeignKey(x => x.Id)
+                .HasForeignKey(y => y.Id)
                 .HasConstraintName("GroupToProduct");
             });
 
