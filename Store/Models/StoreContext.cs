@@ -25,8 +25,8 @@ namespace NetStore.Models
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .Build();
 
-            string connectionString = config.GetConnectionString();
-            optionsBuilder.UseSqlServer(connectionString)
+             
+            optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"))
                 .UseLazyLoadingProxies();
         }
 
