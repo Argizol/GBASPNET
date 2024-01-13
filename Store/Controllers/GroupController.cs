@@ -67,15 +67,18 @@ namespace Store.Controllers
 
         [HttpGet("GetCacheCSV")]
         public ActionResult<string> GetCacheCSV()
-        {
-            var groups = GetGroups();            
-            var result = _groupRepository.GetСacheStat;
+        {                     
+            var result = _groupRepository.GetСacheStatCSV;
 
-            var fileName = $"groups{DateTime.Now.ToBinary()}.csv";
+            if(result is not null)
+            {
+                var fileName = $"groups{DateTime.Now.ToBinary()}.csv";
 
-            System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", fileName), result);
+                System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", fileName), result);
 
-            return "https://" + Request.Host.ToString() + "/static/" + fileName;
+                return "https://" + Request.Host.ToString() + "/static/" + fileName;
+            }
+            return StatusCode(500);
         }
     }
 }

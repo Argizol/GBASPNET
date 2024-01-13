@@ -6,7 +6,7 @@ namespace NetStore.Abstraction
     {
         public int AddProduct(DTOProduct product);
         public string GetProductsCSV();
-        public string GetСacheStat();
+        public string GetСacheStatCSV();
 
         public IEnumerable<DTOProduct> GetProducts();
 

@@ -21,18 +21,16 @@ namespace NetStore.Repositories
 
         public int AddGroup(DTOGroup group)
         {
-            using (var context = new StoreContext())
+            using var context = new StoreContext();
+            var entityGroup = context.Groups.FirstOrDefault(x => x.Name.ToLower() == group.Name.ToLower());
+            if (entityGroup is null)
             {
-                var entityGroup = context.Groups.FirstOrDefault(x => x.Name.ToLower() == group.Name.ToLower());
-                if (entityGroup is null)
-                {
-                    entityGroup = _mapper.Map<Group>(group);
-                    context.Groups.Add(entityGroup);
-                    context.SaveChanges();
-                    _cache.Remove("groups");
-                }
-                return entityGroup.Id;
+                entityGroup = _mapper.Map<Group>(group);
+                context.Groups.Add(entityGroup);
+                context.SaveChanges();
+                _cache.Remove("groups");
             }
+            return entityGroup.Id;
         }
 
         public IEnumerable<DTOGroup> GetGroups()
@@ -65,7 +63,7 @@ namespace NetStore.Repositories
             return sb.ToString();
         }
 
-        public string GetСacheStat()
+        public string GetСacheStatCSV()
         {            
             var result = _cache.GetCurrentStatistics().ToString();
             return result;            

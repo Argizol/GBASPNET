@@ -4,7 +4,7 @@ namespace NetStore.Models
 {
     public class FileWriter : IWriter
     {
-        private string _fileName;
+        private readonly string _fileName;
 
         public FileWriter(string fileName) => _fileName = fileName;
         public void Write(string value)

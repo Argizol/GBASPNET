@@ -90,17 +90,21 @@ namespace Store.Controllers
             return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
         }
 
-        [HttpGet("GetCacheCSV")]
-        public ActionResult<string> GetCacheCSV()
+        [HttpGet("GetCacheCSVUrl")]
+        public ActionResult<string> GetCacheCSVUrl()
         {
-            var products =_productRepository.GetProducts();
-            var result = _productRepository.GetСacheStat();
+            var result = _productRepository.GetСacheStatCSV();
 
-            var fileName = $"products{DateTime.Now.ToBinary()}.csv";
+            if(result is not null)
+            {
+                var fileName = $"products{DateTime.Now.ToBinary()}.csv";
 
-            System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", fileName), result);
+                System.IO.File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", fileName), result);
 
-            return "https://" + Request.Host.ToString() + "/static/" + fileName;
+                return "https://" + Request.Host.ToString() + "/static/" + fileName;
+            }
+
+            return StatusCode(500);
         }
     }
 }
