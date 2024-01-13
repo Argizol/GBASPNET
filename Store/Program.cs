@@ -40,9 +40,6 @@ namespace NetStore
             builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<MyLogger>()
             .As<IMyLogger>());
 
-            builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductCacheLogger>()
-            .As<IMyLogger>());
-
             //builder.Services.AddSingleton<IProductRepository, ProductRepository>();
             //builder.Services.AddSingleton<IGroupRepository, GroupRepository>();
 
