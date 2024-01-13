@@ -86,7 +86,7 @@ namespace Store.Controllers
         {
             var content = _productRepository.GetProductsCSV();
 
-            return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
+            return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Products.csv");
         }
 
         [HttpGet("GetCacheCSVUrl")]
