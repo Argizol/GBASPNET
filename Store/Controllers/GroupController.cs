@@ -68,7 +68,7 @@ namespace Store.Controllers
         [HttpGet("GetCacheCSV")]
         public ActionResult<string> GetCacheCSV()
         {                     
-            var result = _groupRepository.GetСacheStatCSV;
+            string result = _groupRepository.GetСacheStatCSV();
 
             if(result is not null)
             {
