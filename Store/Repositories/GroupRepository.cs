@@ -44,9 +44,9 @@ namespace NetStore.Repositories
 
                 _cache.Set("products", groups, TimeSpan.FromMinutes(30));              
 
-                groups = context.Groups.Select(x => _mapper.Map<DTOGroup>(x)).ToList();
+                var getgroups = context.Groups.Select(x => _mapper.Map<DTOGroup>(x)).ToList();
 
-                return groups;
+                return getgroups;
             }
         }
 

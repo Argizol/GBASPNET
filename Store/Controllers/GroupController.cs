@@ -27,7 +27,7 @@ namespace Store.Controllers
         [HttpGet("getGroups")]
         public IActionResult GetGroups()
         {
-            var result = _groupRepository.GetGroups;
+            var result = _groupRepository.GetGroups();
             return Ok(result);
         }
 

@@ -26,20 +26,21 @@ namespace NetStore
             });
 
             // регистрация с Autofac
-            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());       
+
             builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductRepository>()
                         .As<IProductRepository>());
 
             builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<GroupRepository>()
             .As<IGroupRepository>());
 
-            builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<FileWriter>()
-            .As<IWriter>()
-            .WithParameter("filename", Path.Combine(Environment.CurrentDirectory, "logFile"))
-            .InstancePerDependency());
+            //builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<FileWriter>()
+            //.As<IWriter>()
+            //.WithParameter("filename", Path.Combine(Environment.CurrentDirectory, "logFile"))
+            //.InstancePerDependency());
 
-            builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<MyLogger>()
-            .As<IMyLogger>());
+            //builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<MyLogger>()
+            //.As<IMyLogger>());
 
             //builder.Services.AddSingleton<IProductRepository, ProductRepository>();
             //builder.Services.AddSingleton<IGroupRepository, GroupRepository>();
@@ -49,8 +50,9 @@ namespace NetStore
             confBuilder.SetBasePath(Directory.GetCurrentDirectory());
             // получаем конфигурацию из файла appsettings.json
             confBuilder.AddJsonFile("appsettings.json");
-            // создаем конфигурацию
-            confBuilder.Build();
+            // создаем конфигурацию           
+
+            var autoFacconf = confBuilder.Build();
 
             var app = builder.Build();
 
