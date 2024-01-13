@@ -3,6 +3,7 @@ using NetStore.Models;
 using AutoMapper;
 using NetStore.Abstraction;
 using Microsoft.Extensions.Caching.Memory;
+using System.Text;
 
 namespace NetStore.Repositories
 {
@@ -16,6 +17,7 @@ namespace NetStore.Repositories
             _mapper = mapper;
             _cache = cache;
         }
+
         public int AddGroup(DTOGroup group)
         {
             using (var context = new StoreContext())
@@ -41,11 +43,25 @@ namespace NetStore.Repositories
                     return groups;
                 }
 
-                _cache.Set("products", groups, TimeSpan.FromMinutes(30));
+                _cache.Set("products", groups, TimeSpan.FromMinutes(30));              
+
                 groups = context.Groups.Select(x => _mapper.Map<DTOGroup>(x)).ToList();
 
                 return groups;
             }
+        }
+
+        public string GetGroupsCSV()
+        {  
+            var sb = new StringBuilder();
+            var groups = GetGroups();
+            
+            foreach (var group in groups)
+            {
+                sb.AppendLine($"{group.Id},{group.Name}, {group.Description}");
+            }
+
+            return sb.ToString();
         }
     }
 }

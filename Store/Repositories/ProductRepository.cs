@@ -48,25 +48,25 @@ namespace NetStore.Repositories
 
                 _cache.Set("products", products, TimeSpan.FromMinutes(30));
 
+                var stat = _cache.GetCurrentStatistics().ToString();
+                File.WriteAllText(Path.Combine(Environment.CurrentDirectory, "productcache.txt"), stat);
+
                 products = context.Groups.Select(x => _mapper.Map<DTOProduct>(x)).ToList();
 
                 return products;
             }
         }
+        public string GetProductsCSV()
+        {
+            var sb = new StringBuilder();
+            var products = GetProducts();
 
-        //public IActionResult CSV()
-        //{
-        //    var products = GetProducts();
+            foreach (var product in products)
+            {
+                sb.AppendLine($"{product.Id},{product.Name}, {product.Description}");
+            }
 
-        //    var sb = new StringBuilder();
-        //    sb.AppendLine("prodID, prodName, prodDescription");
-
-        //    foreach (var product in products)
-        //    {
-        //        sb.Append($"{product.Id}, {product.Name}, {product.Description}");
-        //    }
-
-        //    return File(Encoding.UTF8.GetBytes(sb.ToString()), "txt/csv", "products.csv");
-        //}
+            return sb.ToString();
+        }       
     }
 }

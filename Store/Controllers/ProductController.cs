@@ -2,6 +2,7 @@
 using NetStore.Abstraction;
 using NetStore.Models;
 using NetStore.Models.DTO;
+using NetStore.Repositories;
 
 
 namespace Store.Controllers
@@ -80,6 +81,14 @@ namespace Store.Controllers
             {
                 return StatusCode(500);
             }
+        }
+        [HttpGet("GetProductsCSV")]
+        public FileContentResult GetCSV()
+        {
+            var result = _productRepository.GetProducts;
+            var content = _productRepository.GetProductsCSV();
+
+            return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
         }
     }
 }

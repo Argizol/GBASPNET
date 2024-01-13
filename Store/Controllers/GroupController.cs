@@ -10,11 +10,11 @@ namespace Store.Controllers
     public class GroupController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
-        
+
         public GroupController(IGroupRepository groupRepository)
         {
             _groupRepository = groupRepository;
-        }        
+        }
 
         [HttpPost("addGroup")]
         public IActionResult AddGroup([FromBody] DTOGroup group)
@@ -55,6 +55,15 @@ namespace Store.Controllers
             {
                 return StatusCode(500);
             }
+        }
+
+        [HttpGet("GetGroupsCSV")]
+        public FileContentResult GetCSV()
+        {
+            var result = _groupRepository.GetGroups;
+            var content = _groupRepository.GetGroupsCSV();
+
+            return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
         }
     }
 }
