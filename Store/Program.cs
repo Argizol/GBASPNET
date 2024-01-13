@@ -2,7 +2,6 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using NetStore.Abstraction;
-using NetStore.Models;
 using NetStore.Repositories;
 
 namespace NetStore
@@ -26,7 +25,7 @@ namespace NetStore
             });
 
             // регистрация с Autofac
-            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());       
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
             builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductRepository>()
                         .As<IProductRepository>());
@@ -56,7 +55,7 @@ namespace NetStore
 
             var app = builder.Build();
 
-            
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -66,7 +65,7 @@ namespace NetStore
             }
 
             var staticFilesPath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles");
-            if(!Directory.Exists(staticFilesPath))
+            if (!Directory.Exists(staticFilesPath))
             {
                 Directory.CreateDirectory(staticFilesPath);
             }

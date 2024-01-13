@@ -1,10 +1,9 @@
-﻿using NetStore.Models.DTO;
-using NetStore.Models;
-using AutoMapper;
-using NetStore.Abstraction;
+﻿using AutoMapper;
 using Microsoft.Extensions.Caching.Memory;
+using NetStore.Abstraction;
+using NetStore.Models;
+using NetStore.Models.DTO;
 using System.Text;
-using Azure.Core;
 
 namespace NetStore.Repositories
 {
@@ -42,7 +41,7 @@ namespace NetStore.Repositories
                     return groups;
                 }
 
-                _cache.Set("products", groups, TimeSpan.FromMinutes(30));              
+                _cache.Set("products", groups, TimeSpan.FromMinutes(30));
 
                 var getgroups = context.Groups.Select(x => _mapper.Map<DTOGroup>(x)).ToList();
 
@@ -51,10 +50,10 @@ namespace NetStore.Repositories
         }
 
         public string GetGroupsCSV()
-        {  
+        {
             var sb = new StringBuilder();
             var groups = GetGroups();
-            
+
             foreach (var group in groups)
             {
                 sb.AppendLine($"{group.Id},{group.Name}, {group.Description}");
@@ -64,9 +63,9 @@ namespace NetStore.Repositories
         }
 
         public string GetСacheStatCSV()
-        {            
+        {
             var result = _cache.GetCurrentStatistics().ToString();
-            return result;            
+            return result;
         }
     }
 }

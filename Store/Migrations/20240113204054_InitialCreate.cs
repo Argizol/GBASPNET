@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Store.Migrations
+namespace NetStore.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -16,7 +16,7 @@ namespace Store.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    ProductName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace Store.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductCount = table.Column<int>(type: "int", nullable: false),
-                    StorageName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StorageName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,7 +86,8 @@ namespace Store.Migrations
                 name: "IX_ProductGroups_ProductName",
                 table: "ProductGroups",
                 column: "ProductName",
-                unique: true);
+                unique: true,
+                filter: "[ProductName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductName",

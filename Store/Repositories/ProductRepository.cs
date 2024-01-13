@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using NetStore.Abstraction;
 using NetStore.Models;
@@ -13,12 +12,11 @@ namespace NetStore.Repositories
     {
         private readonly IMapper _mapper;
         private readonly IMemoryCache _cache;
-        private readonly ILogger _logger;
-        public ProductRepository(IMapper mapper, IMemoryCache cache, ILogger logger)
+
+        public ProductRepository(IMapper mapper, IMemoryCache cache)
         {
             _mapper = mapper;
             _cache = cache;
-            _logger = logger;
         }
 
         public int AddProduct(DTOProduct product)

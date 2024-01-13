@@ -6,14 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetStore.Models;
 
-
 #nullable disable
 
-namespace Store.Migrations
+namespace NetStore.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240109185300_ThirdCreate")]
-    partial class ThirdCreate
+    [Migration("20240113204054_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,22 +27,7 @@ namespace Store.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ProductStore", b =>
-                {
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StoresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductsId", "StoresId");
-
-                    b.HasIndex("StoresId");
-
-                    b.ToTable("StorageProduct", (string)null);
-                });
-
-            modelBuilder.Entity("Store.Models.Group", b =>
+            modelBuilder.Entity("NetStore.Models.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +50,7 @@ namespace Store.Migrations
                     b.ToTable("ProductGroups", (string)null);
                 });
 
-            modelBuilder.Entity("Store.Models.Product", b =>
+            modelBuilder.Entity("NetStore.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -99,7 +83,7 @@ namespace Store.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("Store.Models.Store", b =>
+            modelBuilder.Entity("NetStore.Models.Warehouse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,24 +105,24 @@ namespace Store.Migrations
                     b.ToTable("Storage", (string)null);
                 });
 
-            modelBuilder.Entity("ProductStore", b =>
+            modelBuilder.Entity("ProductWarehouse", b =>
                 {
-                    b.HasOne("Store.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
 
-                    b.HasOne("Store.Models.Store", null)
-                        .WithMany()
-                        .HasForeignKey("StoresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("StoresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsId", "StoresId");
+
+                    b.HasIndex("StoresId");
+
+                    b.ToTable("StorageProduct", (string)null);
                 });
 
-            modelBuilder.Entity("Store.Models.Product", b =>
+            modelBuilder.Entity("NetStore.Models.Product", b =>
                 {
-                    b.HasOne("Store.Models.Group", "Group")
+                    b.HasOne("NetStore.Models.Group", "Group")
                         .WithMany("Products")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -148,7 +132,22 @@ namespace Store.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("Store.Models.Group", b =>
+            modelBuilder.Entity("ProductWarehouse", b =>
+                {
+                    b.HasOne("NetStore.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NetStore.Models.Warehouse", null)
+                        .WithMany()
+                        .HasForeignKey("StoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NetStore.Models.Group", b =>
                 {
                     b.Navigation("Products");
                 });

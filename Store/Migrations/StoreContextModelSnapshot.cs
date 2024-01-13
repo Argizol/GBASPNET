@@ -7,7 +7,7 @@ using NetStore.Models;
 
 #nullable disable
 
-namespace Store.Migrations
+namespace NetStore.Migrations
 {
     [DbContext(typeof(StoreContext))]
     partial class StoreContextModelSnapshot : ModelSnapshot

@@ -59,7 +59,7 @@ namespace Store.Controllers
 
         [HttpGet("GetGroupsCSV")]
         public FileContentResult GetCSV()
-        {            
+        {
             var content = _groupRepository.GetGroupsCSV();
 
             return File(new System.Text.UTF8Encoding().GetBytes(content), "text/csv", "Groups.csv");
@@ -67,10 +67,10 @@ namespace Store.Controllers
 
         [HttpGet("GetCacheCSV")]
         public ActionResult<string> GetCacheCSV()
-        {                     
+        {
             string result = _groupRepository.GetСacheStatCSV();
 
-            if(result is not null)
+            if (result is not null)
             {
                 var fileName = $"groups{DateTime.Now.ToBinary()}.csv";
 

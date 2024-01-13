@@ -2,7 +2,6 @@
 using NetStore.Abstraction;
 using NetStore.Models;
 using NetStore.Models.DTO;
-using NetStore.Repositories;
 
 
 namespace Store.Controllers
@@ -12,6 +11,13 @@ namespace Store.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
+
+        [HttpPost("addProduct")]
+        public IActionResult AddProduct([FromBody] DTOProduct product)
+        {
+            var result = _productRepository.AddProduct(product);
+            return Ok(result);
+        }
 
         public ProductController(IProductRepository productRepository)
         {
@@ -23,13 +29,6 @@ namespace Store.Controllers
         {
             var products = _productRepository.GetProducts();
             return Ok(products);
-        }
-
-        [HttpPost("addProduct")]
-        public IActionResult AddProduct([FromBody] DTOProduct product)
-        {
-            var result = _productRepository.AddProduct(product);
-            return Ok(result);
         }
 
         [HttpDelete("deleteProduct")]
@@ -95,7 +94,7 @@ namespace Store.Controllers
         {
             var result = _productRepository.GetСacheStatCSV();
 
-            if(result is not null)
+            if (result is not null)
             {
                 var fileName = $"products{DateTime.Now.ToBinary()}.csv";
 

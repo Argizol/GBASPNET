@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace NetStore.Models
 {
@@ -25,7 +24,7 @@ namespace NetStore.Models
                         .SetBasePath(Directory.GetCurrentDirectory())
                         .Build();
 
-             
+
             optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"))
                 .UseLazyLoadingProxies();
         }
