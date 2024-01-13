@@ -19,7 +19,10 @@ namespace NetStore
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
-            builder.Services.AddMemoryCache();
+            builder.Services.AddMemoryCache(x =>
+            {
+                x.TrackStatistics = true;
+            });
 
             // регистрация с Autofac
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -35,6 +38,9 @@ namespace NetStore
             .InstancePerDependency());
 
             builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<MyLogger>()
+            .As<IMyLogger>());
+
+            builder.Host.ConfigureContainer<ContainerBuilder>(cb => cb.RegisterType<ProductCacheLogger>()
             .As<IMyLogger>());
 
             //builder.Services.AddSingleton<IProductRepository, ProductRepository>();
